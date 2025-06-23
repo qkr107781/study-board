@@ -1,8 +1,8 @@
-package com.study.board.dto;
+package com.study.board.projection;
 
 import java.time.LocalDateTime;
 
-public interface BoardViewDto {
+public interface BoardViewProjection {
 
 	String getSubject();
 	String getWriter();
