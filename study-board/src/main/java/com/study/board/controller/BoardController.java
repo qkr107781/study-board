@@ -3,7 +3,9 @@ package com.study.board.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,44 +18,40 @@ import com.study.board.service.BoardService;
 
 
 @RestController
-@RequestMapping("/api/board")
+@RequestMapping("/api")
 public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
 	
-    @GetMapping("/getList")
+    @GetMapping("board/list")
     public List<BoardViewMapping> getList(){
-    	List<BoardViewMapping> resultList = boardService.getList();
-    	System.out.println("결과 리스트 사이즈 : "+resultList.size());
-    	return resultList;
+    	return boardService.getList();
     }
     
-    @GetMapping("/getDetail/{ukey}")
+    @GetMapping("board/{ukey}")
     public BoardViewMapping getDetail(@PathVariable String ukey){
     	//@PathVariable - path에 있는 파라미터 사용
-    	BoardViewMapping result = boardService.getDetail(ukey);
-    	return result;
+    	return boardService.getDetail(ukey);
     }
 
-    @PostMapping("/insertBoard")
+    @PostMapping("board")
     public BoardEntity insertBoard(@RequestBody BoardEntity board){
-    	BoardEntity result = boardService.insertBoard(board);
-    	return result;
+    	return boardService.insertBoard(board);
     }
     
-    @PostMapping("/updateBoard")
-    public BoardEntity updateBoard(){
-    	BoardEntity board = new BoardEntity();
-    	BoardEntity result = boardService.updateBoard(board);
-    	return result;
+    @PatchMapping("board")
+    public BoardViewMapping updateBoard(@RequestBody BoardEntity board){
+    	return boardService.updateBoard(board);
     }
     
-    @PostMapping("/deleteBoard")
-    public String deleteBoard(){
-    	String id = "";
-    	boardService.deleteBoard(id);
+    @DeleteMapping("board")
+    public String deleteBoard(@RequestBody BoardEntity board){
+    	int deleteCnt = boardService.deleteBoard(board);
     	String result = "ok";
+    	if(deleteCnt <= 0) {
+    		result = "fail";
+    	}
     	return result;
     }
 }

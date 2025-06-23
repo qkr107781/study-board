@@ -1,10 +1,13 @@
 package com.study.board.repository;
 
+import java.time.LocalDateTime;
+
 public interface BoardViewMapping {
 
 	String getSubject();
 	String getWriter();
 	String getContent();
-	String getRegdate();	
+	LocalDateTime getRegdate();	
+	LocalDateTime getModifydate();	
 	
 }

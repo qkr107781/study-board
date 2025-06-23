@@ -9,6 +9,14 @@ import com.study.board.domain.BoardEntity;
 
 @Repository
 public interface BoardRepository extends JpaRepository<BoardEntity, String>{
+	
+	//목록 조회(작성일 내림차순 정렬)
 	List<BoardViewMapping> findAllByOrderByRegdateDesc();
+	
+	//상세 조회
 	BoardViewMapping findByUkey(String ukey);
+	
+	//수정 시 password 체크를 위한 조회, Dirty Checking 상세 조회
+	int countByUkeyAndPassword(String ukey, String password);
+
 }
