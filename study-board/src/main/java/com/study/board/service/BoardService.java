@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.study.board.domain.BoardEntity;
+import com.study.board.dto.BoardViewDto;
 import com.study.board.repository.BoardRepository;
-import com.study.board.repository.BoardViewMapping;
 
 import jakarta.persistence.EntityManager;
 
@@ -23,11 +23,11 @@ public class BoardService {
 		this.em = em;
 	}
 
-    public List<BoardViewMapping> getList(){
+    public List<BoardViewDto> getList(){
     	return boardRepository.findAllByOrderByRegdateDesc();
     }
     
-    public BoardViewMapping getDetail(String ukey){
+    public BoardViewDto getDetail(String ukey){
     	return boardRepository.findByUkey(ukey);
     }
 
@@ -36,7 +36,7 @@ public class BoardService {
     }
     
     @Transactional
-    public BoardViewMapping updateBoard(BoardEntity board){
+    public BoardViewDto updateBoard(BoardEntity board){
     	
 		int existBoard = boardRepository.countByUkeyAndPassword(board.getUkey(), board.getPassword());
     	

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.board.domain.BoardEntity;
-import com.study.board.repository.BoardViewMapping;
+import com.study.board.dto.BoardViewDto;
 import com.study.board.service.BoardService;
 
 
@@ -25,12 +25,12 @@ public class BoardController {
 	private BoardService boardService;
 	
     @GetMapping("board/list")
-    public List<BoardViewMapping> getList(){
+    public List<BoardViewDto> getList(){
     	return boardService.getList();
     }
     
     @GetMapping("board/{ukey}")
-    public BoardViewMapping getDetail(@PathVariable String ukey){
+    public BoardViewDto getDetail(@PathVariable String ukey){
     	//@PathVariable - path에 있는 파라미터 사용
     	return boardService.getDetail(ukey);
     }
@@ -41,7 +41,7 @@ public class BoardController {
     }
     
     @PatchMapping("board")
-    public BoardViewMapping updateBoard(@RequestBody BoardEntity board){
+    public BoardViewDto updateBoard(@RequestBody BoardEntity board){
     	return boardService.updateBoard(board);
     }
     
