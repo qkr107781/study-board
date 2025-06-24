@@ -3,6 +3,7 @@ package com.study.board.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,39 +47,37 @@ public class BoardService {
     }
     
     @Transactional
-    public BoardViewProjection updateBoard(BoardEntity board){
+    public boolean updateBoard(BoardEntity board){
+    	boolean result = false;
     	
-		int existBoard = boardRepository.countByUkeyAndPassword(board.getUkey(), board.getPassword());
-    	
-    	if(existBoard > 0) {
+    	if(boardRepository.countByUkeyAndPassword(board.getUkey(), board.getPassword()) > 0) {
     		//Dirty Checking을 통해 update - EntityManager로 ukey값에 맞는 데이터 조회 후 값을 새로 세팅하여 Transaction 종료 후 update 진행되게함
     		BoardEntity beforeModifiedBoard = em.find(BoardEntity.class, board.getUkey());
     		
-	    	String subject = board.getSubject();
-	    	String writer = board.getWriter();
-	    	String content = board.getContent();
-	    	
-	    	if(subject != null && subject != "") {
-	    		beforeModifiedBoard.updateSubject(subject);
-	    	}
-	    	if(writer != null && writer != "") {
-	    		beforeModifiedBoard.updateWrite(writer);
-	    	}
-	    	if(content != null && content != "") {
-	    		beforeModifiedBoard.updateContent(content);
-	    	}
-	    	beforeModifiedBoard.updateModifydate(LocalDateTime.now());
+    		String subject = board.getSubject();
+    		String writer = board.getWriter();
+    		String content = board.getContent();
+    		
+    		if(StringUtils.isNotEmpty(subject)) {
+    			beforeModifiedBoard.updateSubject(subject);
+    		}
+    		if(StringUtils.isNotEmpty(writer)) {
+    			beforeModifiedBoard.updateWrite(writer);
+    		}
+    		if(StringUtils.isNotEmpty(content)) {
+    			beforeModifiedBoard.updateContent(content);
+    		}
+    		beforeModifiedBoard.updateModifydate(LocalDateTime.now());
+    		
+    		result = true;
     	}
-    	return boardRepository.findByUkey(board.getUkey());
+    	
+    	return result;
     }
     
-    public int deleteBoard(BoardEntity board){
-    	int deleteCnt = 0;
-    	int existBoard = boardRepository.countByUkeyAndPassword(board.getUkey(), board.getPassword());
-    	if(existBoard > 0) {
-    		boardRepository.deleteById(board.getUkey());
-    		deleteCnt++;
+    public void deleteBoard(BoardEntity board){
+    	if(boardRepository.countByUkeyAndPassword(board.getUkey(), board.getPassword()) > 0) {
+			boardRepository.deleteById(board.getUkey());
     	}
-    	return deleteCnt;
     }
 }
