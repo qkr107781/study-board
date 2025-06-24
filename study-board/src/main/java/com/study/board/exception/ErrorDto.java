@@ -9,14 +9,14 @@ import org.springframework.http.ResponseEntity;
 public class ErrorDto {
     private int status;
     private String code;
-    private String msg;
+    private String message;
 
     public static ResponseEntity<ErrorDto> toResponseEntity(ErrorCode e) {
         return ResponseEntity.status(e.getStatus())
                 .body(ErrorDto.builder()
                 .status(e.getStatus())
                 .code(e.getCode())
-                .msg(e.getMessage())
+                .message(e.getMessage())
                 .build());
     }
 }
