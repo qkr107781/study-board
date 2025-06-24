@@ -12,12 +12,30 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)//now()로 LocalDateTime 컬럼 default_value 입력
 @Table(name = "std_board")
+@Getter
+@NoArgsConstructor
 public class BoardEntity {
 
+	@Builder
+	public BoardEntity(String ukey, String subject, String writer, String content, LocalDateTime regdate,
+			LocalDateTime modifydate, String username, String password) {
+		this.ukey = ukey;
+		this.subject = subject;
+		this.writer = writer;
+		this.content = content;
+		this.regdate = regdate;
+		this.modifydate = modifydate;
+		this.username = username;
+		this.password = password;
+	}
+	
 	@Id
 	@Column(name="ukey",columnDefinition = "INT")
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //DB에 설정된 방식으로 기본키 생성
@@ -45,39 +63,6 @@ public class BoardEntity {
 	@Column(name="password",columnDefinition = "VARCHAR(30)")
 	private String password;
 
-	public String getUkey() {
-		return this.ukey;
-	}
-
-	public String getSubject() {
-		return this.subject;
-	}
-	
-	public String getWriter() {
-		return this.writer;
-	}
-	
-	public String getContent() {
-		return this.content;
-	}
-	
-	public LocalDateTime getregdate() {
-		return this.regdate;
-	}
-	
-	public LocalDateTime getModifydate() {
-		return this.modifydate;
-	}
-	
-	
-	public String getUsername() {
-		return this.username;
-	}
-	
-	public String getPassword() {
-		return this.password;
-	}
-	
 	public void updateSubject(String subject) {
 		this.subject = subject;
 	}
@@ -93,4 +78,5 @@ public class BoardEntity {
 	public void updateModifydate(LocalDateTime modifydate) {
 		this.modifydate = modifydate;
 	}
+
 }

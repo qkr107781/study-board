@@ -44,13 +44,9 @@ public class BoardController {
     
     @PatchMapping("board")
     public BoardViewProjection updateBoard(@RequestBody BoardEntity board){
-    	if(board == null) {
-    		throw new CustomException(ErrorCode.INVALID_INPUT);
-    	}else {
-    		if(StringUtils.isEmpty(board.getUkey()) || StringUtils.isEmpty(board.getPassword())) {
-    			throw new CustomException(ErrorCode.INVALID_INPUT);
-    		}
-    	}
+		if(StringUtils.isEmpty(board.getUkey()) || StringUtils.isEmpty(board.getPassword())) {
+			throw new CustomException(ErrorCode.INVALID_INPUT);
+		}
     	
     	BoardViewProjection resultView = null;
     	boolean isUpdated = boardService.updateBoard(board);
@@ -63,13 +59,9 @@ public class BoardController {
     
     @DeleteMapping("board")
     public String deleteBoard(@RequestBody BoardEntity board){
-    	if(board == null) {
-    		throw new CustomException(ErrorCode.INVALID_INPUT);
-    	}else {
-    		if(StringUtils.isEmpty(board.getUkey()) || StringUtils.isEmpty(board.getPassword())) {
-    			throw new CustomException(ErrorCode.INVALID_INPUT);
-    		}
-    	}
+		if(StringUtils.isEmpty(board.getUkey()) || StringUtils.isEmpty(board.getPassword())) {
+			throw new CustomException(ErrorCode.INVALID_INPUT);
+		}
     	
     	boardService.deleteBoard(board);
     	return "ok";
