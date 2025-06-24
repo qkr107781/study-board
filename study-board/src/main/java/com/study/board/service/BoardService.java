@@ -70,6 +70,8 @@ public class BoardService {
     		beforeModifiedBoard.updateModifydate(LocalDateTime.now());
     		
     		result = true;
+    	}else {
+    		throw new CustomException(ErrorCode.BOARD_EMPTY);
     	}
     	
     	return result;
@@ -78,6 +80,8 @@ public class BoardService {
     public void deleteBoard(BoardEntity board){
     	if(boardRepository.countByUkeyAndPassword(board.getUkey(), board.getPassword()) > 0) {
 			boardRepository.deleteById(board.getUkey());
+    	}else {
+    		throw new CustomException(ErrorCode.BOARD_EMPTY);
     	}
     }
 }
