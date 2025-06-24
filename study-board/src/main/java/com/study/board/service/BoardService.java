@@ -71,7 +71,7 @@ public class BoardService {
     		
     		result = true;
     	}else {
-    		throw new CustomException(ErrorCode.BOARD_EMPTY);
+    		throw new CustomException(ErrorCode.INVALID_PASSWORD);
     	}
     	
     	return result;
@@ -81,7 +81,7 @@ public class BoardService {
     	if(boardRepository.countByUkeyAndPassword(board.getUkey(), board.getPassword()) > 0) {
 			boardRepository.deleteById(board.getUkey());
     	}else {
-    		throw new CustomException(ErrorCode.BOARD_EMPTY);
+    		throw new CustomException(ErrorCode.INVALID_PASSWORD);
     	}
     }
 }
