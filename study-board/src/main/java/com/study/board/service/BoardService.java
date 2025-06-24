@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.study.board.domain.BoardEntity;
+import com.study.board.exception.CustomException;
+import com.study.board.exception.ErrorCode;
 import com.study.board.projection.BoardViewProjection;
 import com.study.board.repository.BoardRepository;
 
@@ -24,11 +26,19 @@ public class BoardService {
 	}
 
     public List<BoardViewProjection> getList(){
-    	return boardRepository.findAllByOrderByRegdateDesc();
+    	List<BoardViewProjection> resultProjections = boardRepository.findAllByOrderByRegdateDesc();
+    	if(resultProjections.isEmpty()) {
+    		throw new CustomException(ErrorCode.BOARD_EMPTY);
+    	}
+    	return resultProjections;
     }
     
     public BoardViewProjection getDetail(String ukey){
-    	return boardRepository.findByUkey(ukey);
+    	BoardViewProjection resultProjections = boardRepository.findByUkey(ukey);
+    	if(resultProjections == null) {
+    		throw new CustomException(ErrorCode.BOARD_EMPTY);
+    	}
+    	return resultProjections;
     }
 
     public BoardEntity insertBoard(BoardEntity board){

@@ -29,9 +29,8 @@ public class BoardController {
     	return boardService.getList();
     }
     
-    @GetMapping("board/{ukey}")
+    @GetMapping("board/{ukey}")//@PathVariable - path에 있는 파라미터 사용
     public BoardViewProjection getDetail(@PathVariable String ukey){
-    	//@PathVariable - path에 있는 파라미터 사용
     	return boardService.getDetail(ukey);
     }
 
