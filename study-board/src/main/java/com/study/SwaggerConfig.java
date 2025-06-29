@@ -1,4 +1,4 @@
-package com.study.board;
+package com.study;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

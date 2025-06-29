@@ -2,6 +2,7 @@ package com.study.board.exception;
 
 import lombok.Builder;
 import lombok.Data;
+
 import org.springframework.http.ResponseEntity;
 
 @Builder

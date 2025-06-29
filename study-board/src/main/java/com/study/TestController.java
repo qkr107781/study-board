@@ -1,4 +1,4 @@
-package com.study.board;
+package com.study;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
