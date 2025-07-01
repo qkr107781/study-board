@@ -1,4 +1,4 @@
-package com.study.board.exception;
+package com.study.util.exception;
 
 import lombok.Builder;
 import lombok.Data;

@@ -9,4 +9,8 @@ import com.study.user.domain.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, String>{
 
 	public UserEntity findByUsernameAndPassword(String username, String password);
+	
+	public UserEntity findByUsername(String username);
+	
+	public int countByUsername(String username);
 }

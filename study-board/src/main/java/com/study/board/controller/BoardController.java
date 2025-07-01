@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.board.domain.BoardEntity;
-import com.study.board.exception.CustomException;
-import com.study.board.exception.ErrorCode;
 import com.study.board.projection.BoardViewProjection;
 import com.study.board.service.BoardService;
+import com.study.util.exception.CustomException;
+import com.study.util.exception.ErrorCode;
 
 
 @RestController

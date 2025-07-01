@@ -1,34 +1,48 @@
 package com.study.user.service;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.study.user.domain.CustomUserDetails;
+import com.study.user.domain.UserDto;
 import com.study.user.domain.UserEntity;
 import com.study.user.repository.UserRepository;
-import com.study.util.jwt.JwtUtil;
+import com.study.util.exception.CustomException;
+import com.study.util.exception.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
 
 	private final UserRepository userRepository;
+	private final BCryptPasswordEncoder passwordEncoder;
 	
-	public UserEntity addUser(UserEntity user) {
-		UserEntity userEntity = userRepository.save(user);
-		return userEntity;
-	}
-	
-	public UserEntity login(UserEntity user) throws Exception {
-		UserEntity userEntity = userRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword());
-		if(userEntity == null) {
-			throw new Exception("아이디 혹은 비밀번호를 확인해주세요.");
+	public UserEntity addUser(UserDto user) {
+		if(userRepository.countByUsername(user.getUsername()) > 0) {
+			throw new CustomException(ErrorCode.USERNAME_ALREADY_USED);
 		}
 		
-		JwtUtil jwtUtil = new JwtUtil();
-		String token = jwtUtil.createToken(user.getUsername());
-		userEntity.grantToken(token);
+	    String encodedPassword = passwordEncoder.encode(user.getPassword());
+	    user.setPassword(encodedPassword);
 		
-		return userEntity;
+	    UserEntity userEntity = UserEntity.builder().username(user.getUsername()).password(user.getPassword()).role(user.getRole()).build();
+	    
+		return userRepository.save(userEntity);
+	}
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		UserEntity userEntity = userRepository.findByUsername(username);
+
+		if(userEntity != null) {
+			return new CustomUserDetails(userEntity);
+		}
+		
+		return null;
 	}
 }

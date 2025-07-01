@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.study.user.domain.UserDto;
 import com.study.user.domain.UserEntity;
 import com.study.user.service.UserService;
 
@@ -21,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/add")
-    public UserEntity addUser(@RequestBody @Valid UserEntity user, BindingResult bindingResult){
+    public UserEntity addUser(@RequestBody @Valid UserDto user, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
         	String usernameError = "";
         	String passwordError = "";
@@ -36,10 +37,5 @@ public class UserController {
             return UserEntity.builder().username(usernameError).password(passwordError).build();
         }
     	return userService.addUser(user);
-    }
-	
-    @PostMapping("/login")
-    public UserEntity login(@RequestBody UserEntity user) throws Exception {
-    	return userService.login(user);
     }
 }

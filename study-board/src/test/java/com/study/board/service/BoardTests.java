@@ -15,10 +15,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.study.board.domain.BoardEntity;
-import com.study.board.exception.CustomException;
-import com.study.board.exception.ErrorCode;
 import com.study.board.projection.BoardViewProjection;
 import com.study.board.repository.BoardRepository;
+import com.study.util.exception.CustomException;
+import com.study.util.exception.ErrorCode;
 
 import jakarta.persistence.EntityManager;
 
