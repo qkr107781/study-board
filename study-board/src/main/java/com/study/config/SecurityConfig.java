@@ -43,12 +43,11 @@ public class SecurityConfig {
     	//basic 인증 방식 미사용
     	http.httpBasic((auth) -> auth.disable());
     	
+    	//LoginFilter 적용
+    	http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil),UsernamePasswordAuthenticationFilter.class);
     	
     	//JwtFilter 적용
         http.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
-    	
-    	//JwtAuthenticationFilter 적용
-    	http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil),UsernamePasswordAuthenticationFilter.class);
     	
     	//인가여부 확인
     	http.authorizeHttpRequests((auth) -> auth.requestMatchers("/login/**").permitAll()
