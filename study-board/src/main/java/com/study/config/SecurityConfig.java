@@ -53,7 +53,7 @@ public class SecurityConfig {
     	//인가여부 확인
     	http.authorizeHttpRequests((auth) -> auth.requestMatchers("/login/**").permitAll()
     			.requestMatchers("/api/user/**").permitAll()
-    			.requestMatchers("/api/board/**").hasRole("USER")
+    			.requestMatchers("/api/board/**").hasRole("USER")//ROLE_를 prefix로 붙여서 권한 확인함
     			.anyRequest().authenticated());
     	
     	//세션 설정

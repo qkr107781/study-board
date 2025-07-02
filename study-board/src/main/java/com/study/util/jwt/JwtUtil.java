@@ -114,11 +114,7 @@ public class JwtUtil {
      */
     public Boolean validateToken(String token, String username) {
         try {
-        	Claims claims = Jwts.parserBuilder()
-			                    .setSigningKey(secretKey)//서명 키 설정
-			                    .build()
-			                    .parseClaimsJws(token)//토큰 파싱 및 서명 검증
-			                    .getBody();//클레임 추출
+        	Claims claims = extractAllClaims(token);
         	
         	String claimUsername = claims.getSubject();
         	Date claimExpirationDate = claims.getExpiration();
